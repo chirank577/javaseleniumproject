@@ -20,6 +20,8 @@ public class ForLoops {
                 while (j % 2 == 0) {
                     System.out.println(j * j * j);
                     j += 7;
+
+
                 }
             }
         }
