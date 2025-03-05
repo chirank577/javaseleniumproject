@@ -1,0 +1,10 @@
+How do we name the packages and classes?
+
+1. Create a Package
+Package name should start with a small letter
+Package name follows camel case
+
+ex for cameCase; seleniumJava first letter of word should be in small and first letter of subsequent words should
+be in capital letter
+
+do not use white space use _.
