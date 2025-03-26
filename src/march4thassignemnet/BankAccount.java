@@ -33,9 +33,6 @@ public abstract class BankAccount {
 
     }
 
-
-
-
 }
 class SavingAccount extends BankAccount implements CalculateInterest{
 
@@ -54,9 +51,8 @@ class SavingAccount extends BankAccount implements CalculateInterest{
         else  {
             System.out.println("you got 5% interest on your money");
 
-
                 float interest= ((amount * rate) );
-                System.out.println(interest+"rs");
+                System.out.println(interest+" Rs.");
             }
         }
 
@@ -73,7 +69,7 @@ class SavingAccount extends BankAccount implements CalculateInterest{
         }
         catch (InsufficientFundsException i)
         {
-            System.out.println("you getting an error"+i.getMessage());
+            System.out.println("you getting an error: "+i.getMessage());
         }
     }
 

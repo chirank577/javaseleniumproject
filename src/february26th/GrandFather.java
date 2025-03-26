@@ -1,17 +1,20 @@
 package february26th;
 
-public class GrandFather extends Father{
+import february26th.greatgrandparent.GreatGrandParent;
 
-    public void Triangle()
+public class GrandFather extends GreatGrandParent {
+
+     void Triangle()
     {
         System.out.println("i am from grandfather triangle");
     }
-    public void rectangle()
+     void rectangle()
     {
         System.out.println("i am from grandfather rectangle");
     }
     public void square()
     {
         System.out.println("i am from grandfather square");
+
     }
 }

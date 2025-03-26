@@ -9,7 +9,7 @@ public interface CalculateInterest {
         s.interestRatePerYear(100, 0.08F);
         CurrentAccount c=new CurrentAccount(12345,"chiranjivi",20000);
         c.deposit(999);
-        s.withdraw(11000);
+        s.withdraw(12000);
         c.withdraw(21000);
 
 
