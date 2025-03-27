@@ -1,0 +1,19 @@
+Maven:
+
+1. it is a build system which is widely used
+2. which helps us adding external libraries to the project easily
+3. Helps us in building and deploying the applications easily
+4. Easy to integrate with any devops tool any CI/CD tools
+5. Helps us in configuring the build management system
+6. pom.xml is the heart of the maven project(POM- Project object model)
+
+
+Gradle which is very rarely used
+
+
+its about files in project
+in SRC folder we write the source code
+Main- it is used for framework related activities
+Test- where we write our test cases
+pom.xml- it is isolated its like environment file
+
