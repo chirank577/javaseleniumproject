@@ -1,11 +1,13 @@
 package frameworks;
 
+import lombok.AllArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 
 import java.util.Set;
 
+//@AllArgsConstructor // based on the variables declared, it will create a parameterized constructor during the execution time
 public class SeleniumUtils {
 
     WebDriver driver;
@@ -54,6 +56,16 @@ public class SeleniumUtils {
     }
 
     public  String launchApps(String url) {
+
+        if(url.isBlank() || url.isEmpty())
+
+            throw new GenericExceptions("Given URL is blank or empty");
+        else if (!url.contains("https"))
+            throw new GenericExceptions("Given URL does not contain https:");
+
+        else if (!url.startsWith("https"))
+        throw new GenericExceptions("Given URL does not start with https:");
+
 
         driver.get(url);
         driver.manage().window().maximize();
