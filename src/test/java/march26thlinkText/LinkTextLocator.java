@@ -1,9 +1,6 @@
 package march26thlinkText;
 
-import frameworks.BrowserUtils;
-import frameworks.PathUtils;
-import frameworks.Reports;
-import frameworks.SeleniumUtils;
+import frameworks.*;
 import frameworks.constants.BrowsersTypes;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,7 +19,8 @@ public class LinkTextLocator {
 
         BrowserUtils.killExistingBrowsers();
         driver= BrowserUtils.getDriver(BrowsersTypes.CHROME.getBrowser());
-        SeleniumUtils seleniumUtils=new SeleniumUtils(driver);
+        ElementUtils elementUtils=new ElementUtils(driver);
+        SeleniumUtils seleniumUtils=new SeleniumUtils(driver,elementUtils);
         seleniumUtils.launchApps("https://www.cricbuzz.com");
 
         //Linktext:
@@ -48,7 +46,7 @@ public class LinkTextLocator {
         WebElement lnkForDC=driver.findElement(By.partialLinkText("DC Won"));
         seleniumUtils.clickOnElement(lnkForDC,"SRH vs DC - DC Won");
 
-        Reports.captureScreenShot(driver);
+        new Reports(driver).captureScreenShot();
 
         driver.quit();
 

@@ -10,11 +10,12 @@ import org.openqa.selenium.WebDriver;
 import java.io.File;
 import java.nio.file.Files;
 
-@UtilityClass
+@AllArgsConstructor
 public class Reports {
 
+    WebDriver driver;
     @SneakyThrows
-    public String captureScreenShot(WebDriver driver)
+    public String captureScreenShot(String...imgName)
     {
         //Takescreenshot--> is the function used to capture the screenshot
         //(Takescreenshot)driver--> is the function used to capture the screenshot of the browsers
@@ -27,8 +28,7 @@ public class Reports {
         File src=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 //        System.out.println(src.getPath());
 
-        File dest=new File(System.getProperty("user.dir")+"//Images.png");
-
+        File dest=new File(PathUtils.getScreenSHotPath(imgName));
         //Copying the file from source to destination
         Files.copy(src.toPath(),dest.toPath());
         return dest.getPath();
