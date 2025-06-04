@@ -70,10 +70,13 @@ public class SeleniumUtils {
 
     public String getElementText(By by)
     {
+
         WebElement element=elementUtils.findElement(by);
         if(element==null)
             throw new GenericExceptions("Unable to find the element for ");
         return element.getText();
+
+
 
     }
     public String getElementText(By by,int time)
@@ -156,9 +159,16 @@ public class SeleniumUtils {
 
     public Optional<Alert> checkIfAlertIsPresent(int sec)
     {
-        WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(sec));
-        //Optional.ofNullable --> check if the given object is returning null or not
-       return Optional.ofNullable(wait.until(ExpectedConditions.alertIsPresent()));
+
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(sec));
+            //Optional.ofNullable --> check if the given object is returning null or not
+            return Optional.ofNullable(wait.until(ExpectedConditions.alertIsPresent()));
+        }
+        catch (TimeoutException t1)
+        {
+            throw new GenericExceptions("Alert is not present");
+        }
     }
     public void acceptAlert()
     {
@@ -305,39 +315,206 @@ public class SeleniumUtils {
         Actions a1=new Actions(driver);
         a1.pause(3000).doubleClick(element).build().perform();
     }
+    public void switchToFrame(String nameOrID)
+    {
+        try
+        {
+            driver.switchTo().frame(nameOrID);
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+nameOrID);
+        }
+
+    }
+    public void switchToFrame(WebElement element, String labelName)
+    {
+        try
+        {
+            driver.switchTo().frame(element);
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+labelName);
+        }
+
+    }
+
+    public void switchToFrame(WebElement element, String labelName, int time)
+    {
+        try
+        {
+            WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(time));
+            Optional.ofNullable(wait.until((ExpectedConditions.frameToBeAvailableAndSwitchToIt(element))))
+                    .orElseThrow(()-> new GenericExceptions("Unable to switch to the frmae with Name or ID" +labelName));
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+labelName);
+        }
+
+    }
+    public void switchToFrame(By  by, String labelName)
+    {
+        WebElement element=elementUtils.findElement(by);
+        try
+        {
+            driver.switchTo().frame(element);
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+labelName);
+        }
+
+    }
+    public void switchToFrame(By  by, String labelName, int time)
+    {
+        WebElement element=elementUtils.findElement(by);
+        try
+        {
+            WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(time));
+            Optional.ofNullable(wait.until((ExpectedConditions.frameToBeAvailableAndSwitchToIt(element))))
+                    .orElseThrow(()-> new GenericExceptions("Unable to switch to the frmae with Name or ID" +labelName));
+
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+labelName);
+        }
+
+    }
 
 
-    public void selectValueFromDropDown(WebElement element,String option,String lableName)
+    public void switchToFrame(String nameOrID, int time)
+    {
+        try
+        {
+            WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(time));
+            Optional.ofNullable(wait.until((ExpectedConditions.frameToBeAvailableAndSwitchToIt(nameOrID))))
+                    .orElseThrow(()-> new GenericExceptions("Unable to switch to the frmae with Name or ID" +nameOrID));
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+nameOrID);
+        }
+
+    }
+    public void switchToParentFrame()
+    {
+        driver.switchTo().parentFrame();
+    }
+    public void switchOutOFAllFrame()
+    {
+        driver.switchTo().defaultContent();
+    }
+
+    public void switchToFrameByIndex(int index)
+    {
+        try
+        {
+            driver.switchTo().frame(index);
+        }
+        catch (NoSuchElementException e1)
+        {
+            throw new GenericExceptions("Unable to switch to the frmae with Name or ID"+index);
+        }
+    }
+
+    public void selectValueFromDropDown(WebElement element, String option, String labelName)
     {
         Select s1=new Select(element);
-        if (option.isEmpty() || option.isBlank())
+        if(option.isBlank() || option.isEmpty())
         {
             List<WebElement> options=s1.getOptions();
-            s1.selectByIndex(ThreadLocalRandom.current().nextInt(0,options.size()-1));
+            //ThreadLocalRandom.current().nextInt(0, options.size()-1) --> This is a function we select a random number between 0, options.size()-1
+            s1.selectByIndex(ThreadLocalRandom.current().nextInt(0, options.size()-1));
         }
+
         else
         {
             try
             {
                 s1.selectByVisibleText(option);
             }
-            catch (NoSuchElementException n1)
+
+            catch (NoSuchElementException r5)
             {
-                try{
-                    s1.selectByValue(option);
+                try
+                {
+                    s1.selectByContainsVisibleText(option);
                 }
-                catch (NoSuchElementException n2)
+
+                catch (NoSuchElementException r6)
                 {
                     try
                     {
-                        s1.selectByIndex(Integer.parseInt(option));
+                        s1.selectByValue(option);
                     }
-                    catch (NoSuchElementException n3)
+
+                    catch (NoSuchElementException r7)
                     {
-                        throw new GenericExceptions("Unable to select the value from the dropdown for "+lableName);
+                        try
+                        {
+                            s1.selectByIndex(Integer.parseInt(option));
+                        }
+
+                        catch (NoSuchElementException r8)
+                        {
+                            throw new GenericExceptions("Unable to select the value from the dropdown for "+labelName);
+                        }
+
                     }
                 }
+            }
+        }
+    }
 
+    public void selectValueFromDropDown(By by, String option, String labelName)
+    {
+        WebElement element=elementUtils.findElement(by);
+        Select s1=new Select(element);
+        if(option.isBlank() || option.isEmpty())
+        {
+            List<WebElement> options=s1.getOptions();
+            //ThreadLocalRandom.current().nextInt(0, options.size()-1) --> This is a function we select a random number between 0, options.size()-1
+            s1.selectByIndex(ThreadLocalRandom.current().nextInt(0, options.size()-1));
+        }
+
+        else
+        {
+            try
+            {
+                s1.selectByVisibleText(option);
+            }
+
+            catch (NoSuchElementException r5)
+            {
+                try
+                {
+                    s1.selectByContainsVisibleText(option);
+                }
+
+                catch (NoSuchElementException r6)
+                {
+                    try
+                    {
+                        s1.selectByValue(option);
+                    }
+
+                    catch (NoSuchElementException r7)
+                    {
+                        try
+                        {
+                            s1.selectByIndex(Integer.parseInt(option));
+                        }
+
+                        catch (NoSuchElementException r8)
+                        {
+                            throw new GenericExceptions("Unable to select the value from the dropdown for "+labelName);
+                        }
+
+                    }
+                }
             }
         }
     }

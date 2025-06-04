@@ -2,10 +2,7 @@ package frameworks;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,7 +17,18 @@ public class ElementUtils {
 
         public  WebElement findElement(By by)
         {
-            return driver.findElement(by);
+            try
+            {return driver.findElement(by);}
+
+            catch (StaleElementReferenceException s1)
+            {
+                throw new GenericExceptions("Element is stale, kindly check it");
+            }
+            catch (NoSuchElementException e1)
+            {
+               throw new GenericExceptions("Element is not found for the given Locator"+by);
+
+            }
         }
 
     public WebElement findElement(By by,String labelName)

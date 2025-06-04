@@ -15,6 +15,17 @@ public class PathUtils {
     public void applySleep(long time)  {
         Thread.sleep(time);
     }
+
+    public String resultsPath;
+
+    public String generateResultsFolder()
+    {
+        File f1=new File(System.getProperty("user.dir")+"//Results//"+getCurrentDateTime("dd-MM-yyyy hh-mm-ss"));
+        f1.mkdirs();
+
+        resultsPath=f1.getPath();
+        return resultsPath;
+    }
     public String getCurrentDateTime(String format)
     {
         SimpleDateFormat sdf=new SimpleDateFormat(format);
