@@ -26,8 +26,8 @@ public class ShadowDom {
         seleniumUtils.switchToFrame("pact",5);
         PathUtils.applySleep(3000);
 
-        WebElement txt_TeaBox=(WebElement)((JavascriptExecutor)driver).executeScript("return document.getElementById('snacktime').shadowRoot.querySelector('.uojl > .uoj > input')");
+        WebElement txt_TeaBox=(WebElement)((JavascriptExecutor)driver).executeScript("return document.getElementById('snacktime').shadowRoot.querySelector('.uojl >.uoj > input')");
 
-        seleniumUtils.enterData(txt_TeaBox,"Tea Box","Tea Box");
+        seleniumUtils.enterData(txt_TeaBox,"Tea Box",500);
     }
 }

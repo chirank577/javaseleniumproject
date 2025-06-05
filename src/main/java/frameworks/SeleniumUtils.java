@@ -60,6 +60,15 @@ public class SeleniumUtils {
 
     }
 
+    public void enterData(WebElement element, String value, int timeoutInSeconds)
+    {
+        WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        wait.until(ExpectedConditions.visibilityOf(element));
+        element.clear();
+        element.sendKeys(value);
+
+    }
+
     public String getElementText(WebElement element)
     {
         if(element==null)
