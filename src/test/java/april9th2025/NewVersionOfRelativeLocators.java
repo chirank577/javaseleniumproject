@@ -23,7 +23,8 @@ public class NewVersionOfRelativeLocators {
 
         driver.manage().window().fullscreen();//Switches to full screen mode
 
-        WebElement element=driver.findElement(with(By.xpath("//input[@ng-model='Phone']")).below(By.xpath("//input[@ng-model='EmailAdress']")));
+        WebElement  element=driver.findElement(with(By.xpath("//input[@ng-model='Phone']")).below(By.xpath("//input[@ng-model='EmailAdress']")));
+        element.sendKeys("hello");
         driver.quit();
 
     }

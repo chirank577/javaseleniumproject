@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+
+
+    <test verbose="2" preserve-order="true" name="First_suit" enabled="false">
+        <classes>
+            <class name="testNGFundamentals09thApril.TestNGAttribute"/>
+        </classes>
+    </test>
+
+    <test verbose="2" preserve-order="true" name="Second_suit" enabled="false">
+        <parameter name="A" value="20"/>
+        <parameter name="B" value="10"/>
+        <classes>
+            <class name="testNGApril14thAnnotation.TESTNGAnnotations"/>
+        </classes>
+    </test>
+
+    <test verbose="2" preserve-order="true" name="Third_Test_Suite">
+            <groups>
+                <define name="SmokeAndRegression">
+                    <include name="Smoke"/>
+                    <include name="Regression"/>
+                </define>
+
+                <define name="SmokeAndSanity">
+                    <include name="Smoke"/>
+                    <include name="Sanity"/>
+                </define>
+
+                <define name="RegressionAndSanity">
+                    <include name="Regression"/>
+                    <include name="Sanity"/>
+                </define>
+
+                <define name="All">
+                    <include name="Smoke"/>
+                    <include name="Regression"/>
+                    <include name="Sanity"/>
+                </define>
+                <run>
+                    <include name="All"/>
+                </run>
+
+                <dependencies>
+                                <group name="Smoke" depends-on="Login"/>
+                </dependencies>
+            </groups>
+
+        <classes>
+            <class name="testNGApril14thAnnotation.GroupingOfTestCases"/>
+            <class name="testNGApril14thAnnotation.GroupingOfTestCases_PartTwo"/>
+        </classes>
+    </test>
+
+</suite>
