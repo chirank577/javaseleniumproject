@@ -13,5 +13,4 @@ public class DataProviderConcept {
     //4. Iterator <Object>
 
 
-    @DataProvider //It is used to represnt the data provider which provides the requird test data to test case
 }
