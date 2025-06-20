@@ -43,10 +43,18 @@ public class PropertiesUtil {
         return getProperty("UserName");
     }
 
-    public static void main(String[] args){
-        PropertiesUtil propertiesUtil=new PropertiesUtil();
-        System.out.println(propertiesUtil.getBrowser());
-        System.out.println(propertiesUtil.getUserName());
+    public String getHeadlessTest()
+    {
+        return getProperty("Headless");
     }
+    public String getIncognitoMode(){
+        return getProperty("Incognito");
+    }
+
+//    public static void main(String[] args){
+//        PropertiesUtil propertiesUtil=new PropertiesUtil();
+//        System.out.println(propertiesUtil.getBrowser());
+//        System.out.println(propertiesUtil.getUserName());
+//    }
 
 }

@@ -8,6 +8,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+
+
 //In this class, every method is static
 // we want to ensure that no one creates an object of this class
  //Ensures that all the methods in this class are static and no one will be able to create the object of this class
@@ -15,6 +17,7 @@ import org.openqa.selenium.safari.SafariDriver;
 @UtilityClass
 public class BrowserUtils {
 
+   private OptionManager options= new OptionManager();
     @SneakyThrows
     public void killExistingBrowsers()
     {
@@ -39,10 +42,10 @@ public class BrowserUtils {
     public static WebDriver getDriver(String browserName)
     {
         return switch (browserName.toUpperCase()) {
-            case "CHROME" -> new ChromeDriver();
-            case "FIREFOX" -> new FirefoxDriver();
-            case "EDGE" -> new EdgeDriver();
-            case "SAFARI" -> new SafariDriver();
+            case "CHROME" -> new ChromeDriver(options.getChromeOptions());
+            case "FIREFOX" -> new FirefoxDriver(options.getFirefoxOptions());
+            case "EDGE" -> new EdgeDriver(options.getEdgeOptions());
+            case "SAFARI" -> new SafariDriver(options.getSafariOptions());
             default -> throw new RuntimeException("Invalid browser: " + browserName);
         };
 

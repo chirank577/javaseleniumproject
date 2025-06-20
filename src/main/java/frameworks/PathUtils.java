@@ -43,4 +43,8 @@ public class PathUtils {
             return f1.getPath() + File.separator + imgName[0] + "_" + getCurrentDateTime("hh-mm-ss-SSS") + ".png";
         }
     }
+    public String getDownloadsFolderPath()
+    {
+        return System.getProperty("user.dir")+"//Downloads";
+    }
 }
