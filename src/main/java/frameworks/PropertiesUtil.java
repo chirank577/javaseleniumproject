@@ -34,6 +34,11 @@ public class PropertiesUtil {
 
     }
 
+    public String getURL()
+    {
+        return getProperty("URL");
+    }
+
     public String getBrowser()
     {
         return getProperty("Browser");

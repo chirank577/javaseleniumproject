@@ -60,6 +60,17 @@ public class SeleniumUtils {
 
     }
 
+    public  void enterData(By by, String data, String labelName)
+    {
+        if(by==null)
+            throw new RuntimeException("Unable to find the element for "+labelName);
+
+        WebElement element=driver.findElement(by);
+        element.clear();
+        element.click();
+        element.sendKeys(data);
+    }
+
     public void enterData(WebElement element, String value, int timeoutInSeconds)
     {
         WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
