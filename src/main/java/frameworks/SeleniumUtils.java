@@ -33,6 +33,46 @@ public class SeleniumUtils {
             throw new GenericExceptions("Element is not interactable for "+ labelName+" please check it ");
         }
     }
+    public  void clickOnElement(By by, int time,String labelName)
+    {
+        try
+        {WebElement element=elementUtils.findElement(by,time,labelName);
+            if(element==null)
+                throw new RuntimeException("Unable to find the element for "+labelName);
+            element.click();}
+
+        catch (ElementNotInteractableException e2)
+        {
+            throw new GenericExceptions("Element is not interactable for "+ labelName+" please check it ");
+        }
+        catch (StaleElementReferenceException s1)
+        {
+            throw new GenericExceptions("Your page refreshed"+labelName+" Stale");
+        }
+    }
+
+    public  void clickOnElements(By by, int time,String labelName)
+    {
+        try {
+            List<WebElement> elements = elementUtils.findElements(by, time, labelName);
+            if (elements == null || elements.isEmpty()) {
+                throw new RuntimeException("Unable to find the element for " + labelName);
+            }
+
+            WebElement element = elements.get(0); // click the first visible element
+            element.click();
+            System.out.println("Clicked on" + labelName);
+
+
+        }catch (ElementNotInteractableException e2)
+        {
+            throw new GenericExceptions("Element is not interactable for "+ labelName+" please check it ");
+        }
+        catch (StaleElementReferenceException s1)
+        {
+            throw new GenericExceptions("Your page refreshed"+labelName+" Stale");
+        }
+    }
 
     public  void clickOnElement(By by, String labelName)
     {
@@ -70,6 +110,14 @@ public class SeleniumUtils {
         element.click();
         element.sendKeys(data);
     }
+    public void enterData(By by,String data,int time,String labelName)
+    {
+        WebElement element=elementUtils.findElement(by, time,labelName);
+        if(element==null)
+            throw new GenericExceptions("Unable to find the element for "+labelName);
+
+        element.sendKeys(data);
+    }
 
     public void enterData(WebElement element, String value, int timeoutInSeconds)
     {
@@ -99,9 +147,9 @@ public class SeleniumUtils {
 
 
     }
-    public String getElementText(By by,int time)
+    public String getElementText(By by,int time,String labelName)
     {
-        WebElement element=elementUtils.findElement(by,time);
+        WebElement element=elementUtils.findElement(by,time,labelName);
         if(element==null)
             throw new GenericExceptions("Unable to find the element for ");
         return element.getText();
@@ -160,6 +208,10 @@ public class SeleniumUtils {
         driver.manage().window().maximize();
 
         return driver.getWindowHandle();
+    }
+
+    public String getCurrentURL(){
+        return driver.getCurrentUrl();
     }
 
     public  String createNewTabAndLaunchApp(String url) {
@@ -286,16 +338,16 @@ public class SeleniumUtils {
         Actions a1=new Actions(driver);
         a1.pause(3000).dragAndDrop(sourcePath, destinataionPath).build().perform();
     }
-    public void performMouseHover(By by,int time)
+    public void performMouseHover(By by,int time,String labelName)
     {
-        WebElement element=elementUtils.findElement(by,time);
+        WebElement element= elementUtils.findElement(by, time,labelName);
         Actions a1=new Actions(driver);
         a1.moveToElement(element).build().perform();
     }
-    public void dragAndDropAction(By source,By destination,int time)
+    public void dragAndDropAction(By source,By destination,int time,String labelName)
     {
-        WebElement sourcePath=elementUtils.findElement(source,time);
-        WebElement destinataionPath=elementUtils.findElement(destination,time);
+        WebElement sourcePath=elementUtils.findElement(source,time,labelName);
+        WebElement destinataionPath=elementUtils.findElement(destination,time,labelName);
         Actions a1=new Actions(driver);
         a1.pause(3000).dragAndDrop(sourcePath, destinataionPath).build().perform();
     }
@@ -311,9 +363,9 @@ public class SeleniumUtils {
         Actions a1=new Actions(driver);
         a1.pause(3000).contextClick(element).build().perform();
     }
-    public void performRightClick(By by,int time)
+    public void performRightClick(By by,int time,String labelName)
     {
-        WebElement element=elementUtils.findElement(by,time);
+        WebElement element=elementUtils.findElement(by,time,labelName);
         Actions a1=new Actions(driver);
         a1.pause(3000).contextClick(element).build().perform();
     }
@@ -329,9 +381,9 @@ public class SeleniumUtils {
         Actions a1=new Actions(driver);
         a1.pause(3000).doubleClick(element).build().perform();
     }
-    public void doubleClick(By by,int time)
+    public void doubleClick(By by,int time,String labelName)
     {
-        WebElement element=elementUtils.findElement(by,time);
+        WebElement element=elementUtils.findElement(by,time,labelName);
         Actions a1=new Actions(driver);
         a1.pause(3000).doubleClick(element).build().perform();
     }
@@ -489,6 +541,7 @@ public class SeleniumUtils {
         }
     }
 
+
     public void selectValueFromDropDown(By by, String option, String labelName)
     {
         WebElement element=elementUtils.findElement(by);
@@ -539,5 +592,64 @@ public class SeleniumUtils {
         }
     }
 
+    public void selectValueFromDropDown(By by, String option,int sec, String labelName)
+    {
+        WebElement element=elementUtils.findElement(by,sec,labelName);
+        Select s1=new Select(element);
+        if(option.isBlank() || option.isEmpty())
+        {
+            List<WebElement> options=s1.getOptions();
+            //ThreadLocalRandom.current().nextInt(0, options.size()-1) --> This is a function we select a random number between 0, options.size()-1
+            s1.selectByIndex(ThreadLocalRandom.current().nextInt(0, options.size()-1));
+        }
+
+        else
+        {
+            try
+            {
+                s1.selectByVisibleText(option);
+            }
+
+            catch (NoSuchElementException r5)
+            {
+                try
+                {
+                    s1.selectByContainsVisibleText(option);
+                }
+
+                catch (NoSuchElementException r6)
+                {
+                    try
+                    {
+                        s1.selectByValue(option);
+                    }
+
+                    catch (NoSuchElementException r7)
+                    {
+                        try
+                        {
+                            s1.selectByIndex(Integer.parseInt(option));
+                        }
+
+                        catch (NoSuchElementException r8)
+                        {
+                            throw new GenericExceptions("Unable to select the value from the dropdown for "+labelName);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    public String getSelectedValueFromDropDown(WebElement element){
+        Select s1=new Select(element);
+        return s1.getFirstSelectedOption().getText();
+    }
+    public String getSelectedValueFromDropDown(By by){
+        WebElement element=elementUtils.findElement(by);
+        Select s1=new Select(element);
+        return s1.getFirstSelectedOption().getText();
+    }
 
 }

@@ -55,16 +55,50 @@ public class ElementUtils {
         {
             return driver.findElements(by);
         }
+        catch (NoSuchElementException e4){
+            throw new GenericExceptions("Element is not found for the given locator" +labelName );
+        }
         catch (StaleElementReferenceException s1)
         {
             throw new GenericExceptions("Element is stale "+labelName+" kindly check it");
         }
     }
 
-    public  WebElement findElement(By by,int time)
+    public List<WebElement> findElements(By by, int time, String labelName) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+
+            List<WebElement> elements = driver.findElements(by);
+            if (elements.isEmpty()) {
+                throw new GenericExceptions("No elements found for locator: " + labelName);
+            }
+            return elements;
+
+        } catch (NoSuchElementException e) {
+            throw new GenericExceptions("Element not found for locator: " + labelName);
+        } catch (StaleElementReferenceException e) {
+            throw new GenericExceptions("Stale element error: " + labelName);
+        } catch (TimeoutException e) {
+            throw new GenericExceptions("Timed out after waiting " + time + " seconds for: " + labelName);
+        }
+    }
+
+
+    public  WebElement findElement(By by, int time, String labelName)
     {
-        WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(time));
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+
+            return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        }
+        catch (NoSuchElementException e2){
+            throw new GenericExceptions("Element is not found for the given locator "+labelName);
+        }
+        catch (TimeoutException e3)
+        {
+            throw new GenericExceptions("Timed out waiting for element: " + labelName);
+        }
     }
 
     public  List<WebElement> findElements(By by,int time)

@@ -2,19 +2,26 @@ package tests;
 
 import frameworks.*;
 import frameworks.constants.AppConstants;
-import frameworks.constants.BrowsersTypes;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import pages.HomePage;
+import pages.bankManager.BankManagerPages;
 
 public class TESTNGBase {
 
+    //Framework related Objects
     private TestUtil testUtil=new TestUtil();
     private WebDriver driver;
-    private SeleniumUtils seleniumUtils;
+    protected SeleniumUtils seleniumUtils;
     private PropertiesUtil propertiesUtil;
     private ExcelUtils excelUtils;
+    protected Reports reports;
+
+    //Page related objects
+    protected HomePage homePage;
+    protected BankManagerPages bankManagerPages;
+
     @BeforeSuite
     public void killExistingBrowsers()
     {
@@ -40,15 +47,20 @@ public class TESTNGBase {
         else {
             testUtil=ReusableLibrary.testUtilThread.get();
         }
-        driver= testUtil.getDriver();
         seleniumUtils=testUtil.getSeleniumUtils();
         propertiesUtil=testUtil.getPropertiesUtil();
         excelUtils =testUtil.getExcelUtils();
+        reports=testUtil.getReports();
 
+
+        //creating the homepage object
+        homePage=new HomePage();
     }
     @BeforeMethod
     public void launchApplication()
     {
+        if(seleniumUtils.getCurrentURL().contains("data"))//if the application is not launched, then only launch the application freshly but if there is already applicaton launched
+            //ignore the new launch
         seleniumUtils.launchApps(propertiesUtil.getURL());
     }
 
